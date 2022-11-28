@@ -39,7 +39,7 @@ def get_post(topic_url : list):
     while(test):
         response = requests.get(url)
         soup = bs4(response.content, "html.parser")
-        if 1 == int(soup.find('span',class_="page-active").text) and page_n != 1 or response.status_code == 404:
+        if 1 == int(soup.find('span',class_="page-active").text) and page_n != 1 or response.status_code == 404 or page_n > 100:
             break
         for post in soup.find_all("div", class_="conteneur-message"):
             # Scrap username
