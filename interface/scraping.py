@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs4
 import requests
 import pandas as pd
+import re
 
 def get_topic(nb_pages : int):
     '''
@@ -38,31 +39,34 @@ def get_post(topic_url : list):
     while(test):
         response = requests.get(url)
         soup = bs4(response.content, "html.parser")
-        print(url,int(soup.find('span',class_="page-active").text))
-        if 1 == int(soup.find('span',class_="page-active").text) and page_n != 1:
+        if 1 == int(soup.find('span',class_="page-active").text) and page_n != 1 or response.status_code == 404 or page_n > 100:
             break
         for post in soup.find_all("div", class_="conteneur-message"):
             # Scrap username
-            username = ''
+            username =""
             if post.select_one('span[class*="bloc-pseudo-msg text-user"]'):
                 username = post.select_one('span[class*="bloc-pseudo-msg text-user"]').text.replace('\n', '').strip()
+
             # Scrap date of message
-            date = post.select_one('span[class*="lien-jv"]').text
+            date =""
+            if post.select_one('span[class*="lien-jv"]'):
+                date = post.select_one('span[class*="lien-jv"]').text
 
             # Scrap the message (join different paragraphs among 1 message)
             full_message = []
-            for paraph in post.find_all("p"):
-                msg = paraph.find(text=True)
-                if msg:
-                    full_message.append(msg)
-            full_message = ' '.join(full_message)
+            for paraph in post.find_all("div", class_="txt-msg text-enrichi-forum"):
+                x = str(paraph.findChildren("p" , recursive=False))
+                x = re.sub('<.*?>', '', x)
+                x= x.replace("["," ").replace("]"," ")
+                full_message.append(x)
+
+            full_message = ''.join(full_message)
 
             # Scrap topic
             topic = soup.find(id='bloc-title-forum').string
 
-            # Create dataframe with info scraped
-            if username and date and full_message:
-                df.append({'username': username, 'date': date, 'message': full_message, 'topic': topic})
+
+            df.append({'username': username, 'date': date, 'message': full_message, 'topic': topic})
 
         #scrap Url of the next page
         new_url = url.split('-')
@@ -73,4 +77,10 @@ def get_post(topic_url : list):
     return pd.DataFrame(df)
 
 if __name__ == '__main__':
-    get_post(get_topic(1)[1]).to_csv("data.csv")
+    print("get_topic")
+    urls = get_topic(10)
+    print("get_topic_done")
+    print(urls)
+    for url in urls:
+        with open("../data/new_data.csv", 'a') as f:
+           get_post(url).to_csv(f, mode='a', header=f.tell()==0)
