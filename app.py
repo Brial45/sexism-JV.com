@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
-import datetime
-import pandas as pd
+#import datetime
+#import pandas as pd
 
 #st.set_page_config(layout="wide")
 
@@ -15,7 +15,7 @@ import pandas as pd
 '''
 ## Is this message sexist ?
 '''
-tweet = st.text_area(label='', value="Go on, copy paste here 18-25's finest jibber-jabber...")
+tweet = st.text_area(label='', value="Paste here 18-25's finest jibber-jabber...")
 
 #url = 'https://taxifare.lewagon.ai/predict'
 #params = {
