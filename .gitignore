@@ -130,4 +130,4 @@ dmypy.json
 
 #ignore notebook
 jupyter/
-data/
+raw_data/
