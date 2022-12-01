@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup as bs4
 import requests
 import pandas as pd
 import re
+import os
 
 def get_topic(nb_pages : int):
     '''
@@ -31,15 +32,22 @@ def get_topic(nb_pages : int):
                     topic.find("a", class_="lien-jv topic-title stretched-link").get("href"))))
     return list_topic_urls
 
-def get_post(topic_url : list):
+def get_post(topic_url : list ,max_page = 100):
+
     df = []
     url = topic_url
-    test = True
     page_n = 1
-    while(test):
+
+    while(True):
         response = requests.get(url)
         soup = bs4(response.content, "html.parser")
-        if 1 == int(soup.find('span',class_="page-active").text) and page_n != 1 or response.status_code == 404 or page_n > 100:
+
+        #Test if the link exist
+        if int(page_n) > int(max_page):
+            break
+        if response.status_code == 404:
+            break
+        if 1 == int(soup.find('span',class_="page-active").text) and page_n != 1:
             break
         for post in soup.find_all("div", class_="conteneur-message"):
             # Scrap username
@@ -67,7 +75,6 @@ def get_post(topic_url : list):
 
 
             df.append({'username': username, 'date': date, 'message': full_message, 'topic': topic})
-
         #scrap Url of the next page
         new_url = url.split('-')
         new_url[3] = str(int(new_url[3])+1)
@@ -76,11 +83,14 @@ def get_post(topic_url : list):
 
     return pd.DataFrame(df)
 
-if __name__ == '__main__':
+
+#launch the scrapping change the params with the .env
+def get_data():
     print("get_topic")
-    urls = get_topic(10)
+    urls = get_topic(int(os.environ["PAGE_NUMBER"]))
     print("get_topic_done")
-    print(urls)
-    for url in urls:
-        with open("../data/new_data.csv", 'a') as f:
-           get_post(url).to_csv(f, mode='a', header=f.tell()==0)
+    data = get_post(urls[0],int(os.environ["MAX_PAGE"]))
+    if len(urls) > 1:
+        for url in urls[1:]:
+            data = pd.concat([data,get_post(url , int(os.environ["MAX_PAGE"]))])
+    return data
