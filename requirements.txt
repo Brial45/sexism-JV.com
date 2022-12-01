@@ -8,6 +8,5 @@ matplotlib
 seaborn
 scikit-learn
 nlkt
-streamlit
 pandas
 requests
