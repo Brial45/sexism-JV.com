@@ -131,3 +131,5 @@ dmypy.json
 #ignore notebook
 jupyter/
 raw_data/
+data/
+model/
