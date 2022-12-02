@@ -10,6 +10,7 @@ scikit-learn
 nltk
 pandas
 requests
+re
 torch
 tensorflow
 
