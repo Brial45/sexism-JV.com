@@ -1,5 +1,6 @@
 from interface.scraping import get_data
-from interface.csv import save
+from interface.csvFile import save, load_file
 
 if __name__ == '__main__':
-    save(get_data())
+    load_file()
+    #save(get_data())

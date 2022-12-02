@@ -12,7 +12,8 @@ def preprocess(data):
 
     return data
 
-def train_val_split(data):
+def train_val_test_split(data):
     train_dataset = data['train'].shuffle(seed=10).select(range(5875))
     eval_dataset = data['train'].shuffle(seed=10).select(range(5875, 7593))
-    return train_dataset , eval_dataset
+    test_dataset = data['train'].shuffle(seed=10).select(range(7593, 8593))
+    return train_dataset , eval_dataset, test_dataset
