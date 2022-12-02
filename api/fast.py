@@ -1,8 +1,7 @@
+import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-import pandas as pd
-from main import pred
+from ml_ops.model import predict
 
 app = FastAPI()
 
@@ -18,8 +17,9 @@ app.add_middleware(
 @app.get("/predict")
 def predict(tweet: str):
 
+    tweet = 'test message forum'
     X_pred = pd.DataFrame({'text': tweet})
-    y_pred = pred(X_pred)
+    y_pred = predict(X_pred)
 
     return dict({'type': int(y_pred[0][0])})
 

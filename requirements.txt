@@ -7,6 +7,18 @@ pandas
 matplotlib
 seaborn
 scikit-learn
-nlkt
+nltk
 pandas
 requests
+torch
+tensorflow
+
+# API
+fastapi         # API framework
+pytz            # time zone management
+uvicorn         # web server
+# tests
+httpx
+# Hugging face
+datasets
+transformers
