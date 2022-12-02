@@ -1,7 +1,7 @@
-import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from ml_ops.model import predict
+from jvcom.ml_ops.model import predict
+import numpy as np
 
 app = FastAPI()
 
@@ -14,14 +14,12 @@ app.add_middleware(
 )
 
 # http://127.0.0.1:8000/predict?tweet=
-@app.get("/predict")
-def predict(tweet: str):
+@app.get("/pred")
+def pred(tweet: str):
 
-    tweet = 'test message forum'
-    X_pred = pd.DataFrame({'text': tweet})
-    y_pred = predict(X_pred)
-
-    return dict({'type': int(y_pred[0][0])})
+    y_pred = predict(tweet).predictions[0]
+    print(y_pred)
+    return y_pred.tolist()
 
 
 @app.get("/")
