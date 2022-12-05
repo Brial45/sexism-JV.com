@@ -13,13 +13,15 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# http://127.0.0.1:8000/predict?tweet=
+# http://127.0.0.1:8000/predict?text=
 @app.get("/pred")
-def pred(tweet: str):
+def pred(text: str):
 
-    y_pred = predict(tweet).predictions[0]
-    print(y_pred)
-    return y_pred.tolist()
+    y_pred = predict(text).predictions[0]
+    response = {'proba': y_pred.tolist(),
+                'type': y_pred.tolist().index(max(y_pred.tolist()))}
+    print(response)
+    return response
 
 
 @app.get("/")

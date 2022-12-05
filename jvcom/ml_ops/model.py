@@ -34,11 +34,11 @@ def make_trainer(model=None, num_train_epochs :int = 3):
     return trainer
 
 
-def predict(tweet):
+def predict(text):
     #Load and make ther trainer for predict data
     model = load_local_model()
     trainer = make_trainer(model=model)
-    data = [{'id': 0, 'text': tweet, 'type': ''}]
+    data = [{'id': 0, 'text': text, 'type': ''}]
     data = Dataset.from_list(data)
     data = preprocess(data)
     return trainer.predict(data)
