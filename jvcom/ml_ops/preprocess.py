@@ -1,4 +1,4 @@
-from ml_ops.encoder import tokenize , label
+from jvcom.ml_ops.encoder import tokenize , label
 import re
 import pandas as pd
 
@@ -20,8 +20,8 @@ def preprocess(data):
 def train_val_split(data):
     #train_dataset = data['train'].shuffle(seed=10).select(range(6875))
     #eval_dataset = data['train'].shuffle(seed=10).select(range(6875,8593))
-    train_dataset = data['train'].shuffle(seed=10).select(range(5))
-    eval_dataset = data['train'].shuffle(seed=10).select(range(5,7))
+    train_dataset = data['train'].select(range(10))
+    eval_dataset = data['train'].select(range(10,20))
     return train_dataset , eval_dataset
 
 

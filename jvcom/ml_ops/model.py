@@ -1,7 +1,8 @@
-from ml_ops.preprocess import preprocess , train_val_split
-from ml_ops.registry import load_hf_model,load_hf_model, load_local_model , save_model
+from jvcom.ml_ops.preprocess import preprocess , train_val_split
+from jvcom.ml_ops.registry import load_hf_model,load_hf_model, load_local_model , save_model
 from transformers import Trainer ,TrainingArguments
 from jvcom.interface.csvFile import load_local_data
+from datasets import Dataset
 #Here we load the model preprocess the data and train the model save the trained one and do some
 
 
@@ -33,18 +34,11 @@ def make_trainer(model=None, num_train_epochs :int = 3):
     return trainer
 
 
-def predict(data):
+def predict(text):
     #Load and make ther trainer for predict data
     model = load_local_model()
     trainer = make_trainer(model=model)
-    data1 = load_local_data()
-    data1 = preprocess(data1)
-    print("!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",data1)
-    return trainer.predict(data1["train"])
-
-
-
-
-if __name__ == '__main__':
-    trainer = make_trainer()
-    print(trainer.evaluate())
+    data = [{'id': 0, 'text': text, 'type': ''}]
+    data = Dataset.from_list(data)
+    data = preprocess(data)
+    return trainer.predict(data)
