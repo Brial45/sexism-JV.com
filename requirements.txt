@@ -10,7 +10,6 @@ scikit-learn
 nltk
 pandas
 requests
-re
 torch
 tensorflow
 
@@ -23,3 +22,5 @@ httpx
 # Hugging face
 datasets
 transformers
+
+re
