@@ -1,14 +1,8 @@
-numpy
-pandas
-torch
+google-cloud-storage
 
 # API
 fastapi         # API framework
-pytz            # time zone management
 uvicorn         # web server
-
-# tests
-httpx
 
 # Hugging face
 datasets

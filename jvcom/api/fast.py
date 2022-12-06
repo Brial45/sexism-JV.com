@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from jvcom.ml_ops.model import predict
+from google.cloud import storage
+import os
+from zipfile import ZipFile
 
 app = FastAPI()
 
@@ -12,7 +15,21 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# http://127.0.0.1:8000/predict?text=
+# Load model.zip from Google Storage
+
+client = storage.Client()
+bucket = client.bucket(os.environ.get('BUCKET_NAME'))
+blob = bucket.blob("model/" + f"model.zip")
+blob.download_to_filename(f"model.zip")
+print(blob)
+
+with ZipFile("model.zip", 'r') as zObject:
+
+    # Extracting all the members of the zip into a specific location.
+    zObject.extractall(path="model/")
+
+
+# http://0.0.0.0:8000/pred?text=
 @app.get("/pred")
 def pred(text: str):
 

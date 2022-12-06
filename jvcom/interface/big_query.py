@@ -1,6 +1,7 @@
 import pandas as pd
-from google.cloud import bigquery
+from google.cloud import biqquery
 from google.oauth2 import service_account
+import os
 
 
 def connection():

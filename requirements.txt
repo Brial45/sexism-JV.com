@@ -12,6 +12,7 @@ requests
 re
 torch
 tensorflow
+google-cloud-storage
 
 # API
 fastapi         # API framework
