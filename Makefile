@@ -2,7 +2,7 @@ packages:
 	pip install -r requirements.txt
 
 run_api:
-	uvicorn api.fast:app --reload
+	uvicorn jvcom.api.fast:app --reload
 
 test_api_root:
 	TEST_ENV=development pytest tests/api -k 'test_root' --asyncio-mode=strict -W "ignore"

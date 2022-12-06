@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from jvcom.ml_ops.model import predict
-import numpy as np
 
 app = FastAPI()
 
