@@ -1,25 +1,15 @@
-pytest
-pylint
-ipdb
-jupyterlab
 numpy
 pandas
-matplotlib
-seaborn
-scikit-learn
-nltk
-requests
 torch
-tensorflow
 
 # API
 fastapi         # API framework
 pytz            # time zone management
 uvicorn         # web server
+
 # tests
 httpx
+
 # Hugging face
 datasets
 transformers
-
-re
