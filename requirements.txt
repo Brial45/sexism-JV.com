@@ -11,6 +11,7 @@ nltk
 requests
 torch
 tensorflow
+google-cloud-storage
 
 # API
 fastapi         # API framework
