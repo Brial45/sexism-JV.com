@@ -34,10 +34,9 @@ def make_trainer(model=None, num_train_epochs :int = 3):
     return trainer
 
 
-def predict(text):
+
+def predict(text,trainer):
     #Load and make ther trainer for predict data
-    model = load_local_model()
-    trainer = make_trainer(model=model)
     data = [{'id': 0, 'text': text, 'type': ''}]
     data = Dataset.from_list(data)
     data = preprocess(data)
